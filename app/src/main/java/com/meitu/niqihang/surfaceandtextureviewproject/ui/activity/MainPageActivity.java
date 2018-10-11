@@ -37,6 +37,10 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
         mFragmentManager = getSupportFragmentManager();
         mMainPagePagerAdapter = new MainPagePagerAdapter(mFragmentManager, mFragments);
         mViewPager.setAdapter(mMainPagePagerAdapter);
+        mMainPagePagerAdapter.addFragment(new FirstFragment());
+        mMainPagePagerAdapter.addFragment(new FirstFragment());
+        mMainPagePagerAdapter.addFragment(new FirstFragment());
+        mMainPagePagerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -55,7 +59,9 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
         for (int i = 0; i < feedInfoBeanList.size(); i++) {
             if (feedInfoBeanList.get(i) != null) {
                 if (feedInfoBeanList.get(i).getFeedType().equals("SurfaceView")) {
-
+                    mMainPagePagerAdapter.addFragment(FirstFragment.newInstance(feedInfoBeanList.get(i)));
+                } else if (feedInfoBeanList.get(i).getFeedType().equals("TextureView")) {
+                    //todo 添加TextureView的Fragment
                 }
             }
         }
