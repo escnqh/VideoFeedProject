@@ -18,7 +18,7 @@ public class MainPageModel implements MainPageContract.Model {
     }
 
     @Override
-    public void getFeed() {
+    public void loadFeed() {
         mMainPagePresenter.pushFeed(mFeedInfoBeanList);
     }
 }

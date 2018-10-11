@@ -13,8 +13,12 @@ import com.meitu.niqihang.surfaceandtextureviewproject.R;
 import com.meitu.niqihang.surfaceandtextureviewproject.base.BaseFragment;
 import com.meitu.niqihang.surfaceandtextureviewproject.contract.FirstFragmentContract;
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.FeedInfoBean;
+import com.meitu.niqihang.surfaceandtextureviewproject.entity.VideoBean;
 import com.meitu.niqihang.surfaceandtextureviewproject.presenter.FirstFragmentPresenter;
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter.SurfacePageAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author nqh 2018/10/10.
@@ -23,6 +27,7 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
     private FeedInfoBean mFeedInfoBean;
     private RecyclerView mRecyclerView;
     private SurfacePageAdapter mSurfacePageAdapter;
+    private List<VideoBean> mVideoBeans = new ArrayList<>();
 
     public FirstFragment() {
 
@@ -47,16 +52,25 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (null != mSurfacePageAdapter) {
+            //check并关闭播放器资源
+            mSurfacePageAdapter.destroyPlayer();
+        }
+    }
+
     private void initView(View view) {
         mRecyclerView = view.findViewById(R.id.rv_first);
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
-        mSurfacePageAdapter = new SurfacePageAdapter(this.getContext(), mFeedInfoBean.getVideoFeed());
+        mSurfacePageAdapter = new SurfacePageAdapter(this.getContext(), mVideoBeans);
     }
 
     @Override
     protected FirstFragmentPresenter createPresenter() {
-        return null;
+        return new FirstFragmentPresenter(this);
     }
 
     public void setFeedInfoBean(FeedInfoBean feedInfoBean) {
@@ -64,4 +78,16 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
     }
 
 
+    @Override
+    public void showFeedInfo(FeedInfoBean feedInfoBean) {
+        if (null != feedInfoBean) {
+            mVideoBeans.addAll(feedInfoBean.getVideoFeed());
+            mSurfacePageAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void requestShowFeedInfo() {
+        mPresenter.requestShowFeedInfo();
+    }
 }

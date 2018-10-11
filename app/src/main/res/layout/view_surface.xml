@@ -20,8 +20,8 @@
         android:id="@+id/item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:text="内容部分"
         android:textColor="#fff"
-        android:text="内容部分"/>
+        android:textSize="20sp" />
 
 </RelativeLayout>

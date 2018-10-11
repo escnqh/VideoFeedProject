@@ -21,12 +21,12 @@ public class MainPagePresenter extends BasePresenter<MainPageContract.View> impl
 
     @Override
     public void requestFeed() {
-        mModel.getFeed();
+        mModel.loadFeed();
     }
 
     @Override
     public void pushFeed(List<FeedInfoBean> feedInfoBeanList) {
-        mView.refreshFeed(feedInfoBeanList);
+        mView.showFeed(feedInfoBeanList);
     }
 
 }

@@ -12,15 +12,16 @@ public class MainPageContract {
         /**
          * 获取feed流信息
          */
-        void getFeed();
+        void loadFeed();
     }
 
     public interface View {
         /**
          * feed界面刷新
+         *
          * @param feedInfoBeanList
          */
-        void refreshFeed(List<FeedInfoBean> feedInfoBeanList);
+        void showFeed(List<FeedInfoBean> feedInfoBeanList);
     }
 
     public interface Presenter {
@@ -31,8 +32,21 @@ public class MainPageContract {
 
         /**
          * 刷新feed流
+         *
          * @param feedInfoBeanList
          */
         void pushFeed(List<FeedInfoBean> feedInfoBeanList);
+    }
+
+    public interface InteractionListener {
+        /**
+         * 请求成功的回调
+         */
+        void onRequestSuccess();
+
+        /**
+         * 请求失败的回调
+         */
+        void onRequestFailed();
     }
 }

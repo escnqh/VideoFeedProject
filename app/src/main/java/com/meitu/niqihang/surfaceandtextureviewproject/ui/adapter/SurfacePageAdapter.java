@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 主要页面适配器
+ * SurfaceView+RecyclerView页面适配器
  *
  * @author nqh 2018/10/10.
  */
@@ -42,6 +42,9 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
         });
     }
 
+    /**
+     * 当宿主被销毁时关闭MediaPlayer资源
+     */
     public void destroyPlayer() {
         if (null != mMediaPlayer) {
             mMediaPlayer.stop();

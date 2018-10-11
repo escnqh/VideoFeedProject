@@ -63,7 +63,7 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
 
 
     @Override
-    public void refreshFeed(List<FeedInfoBean> feedInfoBeanList) {
+    public void showFeed(List<FeedInfoBean> feedInfoBeanList) {
 
     }
 }
