@@ -37,10 +37,7 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
         mFragmentManager = getSupportFragmentManager();
         mMainPagePagerAdapter = new MainPagePagerAdapter(mFragmentManager, mFragments);
         mViewPager.setAdapter(mMainPagePagerAdapter);
-        mMainPagePagerAdapter.addFragment(new FirstFragment());
-        mMainPagePagerAdapter.addFragment(new FirstFragment());
-        mMainPagePagerAdapter.addFragment(new FirstFragment());
-        mMainPagePagerAdapter.notifyDataSetChanged();
+        requestFeed();
     }
 
     @Override
@@ -56,20 +53,21 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
 
     @Override
     public void pushFeed(List<FeedInfoBean> feedInfoBeanList) {
-        for (int i = 0; i < feedInfoBeanList.size(); i++) {
-            if (feedInfoBeanList.get(i) != null) {
-                if (feedInfoBeanList.get(i).getFeedType().equals("SurfaceView")) {
-                    mMainPagePagerAdapter.addFragment(FirstFragment.newInstance(feedInfoBeanList.get(i)));
-                } else if (feedInfoBeanList.get(i).getFeedType().equals("TextureView")) {
-                    //todo 添加TextureView的Fragment
-                }
-            }
-        }
+        mPresenter.pushFeed(feedInfoBeanList);
     }
 
 
     @Override
     public void showFeed(List<FeedInfoBean> feedInfoBeanList) {
-
+        for (int i = 0; i < feedInfoBeanList.size(); i++) {
+            if (feedInfoBeanList.get(i) != null) {
+                if (feedInfoBeanList.get(i).getFeedType().equals("SurfaceView")) {
+                    mMainPagePagerAdapter.addFragment(FirstFragment.newInstance(feedInfoBeanList.get(i)));
+                    mMainPagePagerAdapter.notifyDataSetChanged();
+                } else if (feedInfoBeanList.get(i).getFeedType().equals("TextureView")) {
+                    //todo 添加TextureView的Fragment
+                }
+            }
+        }
     }
 }

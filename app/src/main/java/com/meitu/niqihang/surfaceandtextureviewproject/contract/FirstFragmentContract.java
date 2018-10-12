@@ -25,6 +25,8 @@ public class FirstFragmentContract {
          * 申请加载feed页
          */
         void requestShowFeedInfo();
+
+        void start();
     }
 
     public interface InteractionListener {

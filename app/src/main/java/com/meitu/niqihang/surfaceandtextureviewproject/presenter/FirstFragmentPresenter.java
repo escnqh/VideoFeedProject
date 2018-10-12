@@ -31,4 +31,9 @@ public class FirstFragmentPresenter extends BasePresenter<FirstFragmentContract.
     public void onRequestFailed() {
         //加载失败
     }
+
+    @Override
+    public void start() {
+        mModel.loadFeedInfo();
+    }
 }

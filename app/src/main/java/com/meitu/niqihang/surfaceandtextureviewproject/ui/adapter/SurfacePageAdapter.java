@@ -1,10 +1,10 @@
 package com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -25,6 +25,7 @@ import java.util.List;
  * @author nqh 2018/10/10.
  */
 public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.MainpageViewholder> {
+    private static final String TAG = "SurfacePageAdapter";
     private Context mContext;
     private List<VideoBean> mDatas;
     private MediaPlayer mMediaPlayer;
@@ -37,7 +38,7 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                mMediaPlayer.release();
+                mMediaPlayer.stop();
             }
         });
     }
@@ -49,6 +50,7 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
         if (null != mMediaPlayer) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
+            mMediaPlayer = null;
         }
     }
 
@@ -97,12 +99,16 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
 
                 @Override
                 public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+                    Log.i(TAG, "SurfaceView is changed!");
                 }
 
                 @Override
                 public void surfaceDestroyed(SurfaceHolder holder) {
-
+                    //处理MediaPlayer的生命周期
+                    Log.i(TAG, "SurfaceView is Destroyed!");
+                    if (mMediaPlayer.isPlaying()){
+                        mMediaPlayer.stop();
+                    }
                 }
             });
         } else {
@@ -114,7 +120,7 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mDatas.size();
     }
 
     class MainpageViewholder extends RecyclerView.ViewHolder {
@@ -128,7 +134,6 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
             mSurfaceView = itemView.findViewById(R.id.surface_view);
             mThumbIv = itemView.findViewById(R.id.item_iv);
             mTitleTv = itemView.findViewById(R.id.item_title);
-
         }
     }
 

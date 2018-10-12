@@ -65,7 +65,11 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
         mRecyclerView = view.findViewById(R.id.rv_first);
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
+        if (mFeedInfoBean != null) {
+            mVideoBeans = mFeedInfoBean.getVideoFeed();
+        }
         mSurfacePageAdapter = new SurfacePageAdapter(this.getContext(), mVideoBeans);
+        mRecyclerView.setAdapter(mSurfacePageAdapter);
     }
 
     @Override
@@ -89,5 +93,10 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
     @Override
     public void requestShowFeedInfo() {
         mPresenter.requestShowFeedInfo();
+    }
+
+    @Override
+    public void start() {
+
     }
 }
