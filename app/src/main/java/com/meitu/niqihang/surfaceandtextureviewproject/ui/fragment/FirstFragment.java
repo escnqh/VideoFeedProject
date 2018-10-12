@@ -3,6 +3,7 @@ package com.meitu.niqihang.surfaceandtextureviewproject.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
     private RecyclerView mRecyclerView;
     private SurfacePageAdapter mSurfacePageAdapter;
     private List<VideoBean> mVideoBeans = new ArrayList<>();
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public FirstFragment() {
 
@@ -62,6 +64,7 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
     }
 
     private void initView(View view) {
+        mSwipeRefreshLayout = view.findViewById(R.id.layout_swipe_refresh);
         mRecyclerView = view.findViewById(R.id.rv_first);
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
@@ -70,6 +73,13 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
         }
         mSurfacePageAdapter = new SurfacePageAdapter(this.getContext(), mVideoBeans);
         mRecyclerView.setAdapter(mSurfacePageAdapter);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //下拉加载更多
+                requestShowFeedInfo();
+            }
+        });
     }
 
     @Override
@@ -87,6 +97,7 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
         if (null != feedInfoBean) {
             mVideoBeans.addAll(feedInfoBean.getVideoFeed());
             mSurfacePageAdapter.notifyDataSetChanged();
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 

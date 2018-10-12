@@ -1,6 +1,7 @@
 package com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import java.util.List;
 
 /**
  * SurfaceView+RecyclerView页面适配器
+ * todo 监听用户锁屏停止视频播放
  *
  * @author nqh 2018/10/10.
  */
@@ -67,6 +69,8 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
         //显示播放视频名称
         mainpageViewholder.mTitleTv.setText(bean.getVideoName());
         //
+        Drawable bitmap = mContext.getResources().getDrawable(R.drawable.icon_play);
+        mainpageViewholder.mThumbIv.setImageDrawable(bitmap);
         mainpageViewholder.mThumbIv.setTag(position);
         mainpageViewholder.mThumbIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +90,7 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
             surfaceHolder.addCallback(new SurfaceHolder.Callback() {
                 @Override
                 public void surfaceCreated(SurfaceHolder holder) {
+                    Log.i(TAG, "SurfaceView is created!");
                     mMediaPlayer.reset();
                     mMediaPlayer.setDisplay(holder);
                     try {
@@ -106,8 +111,8 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
                 public void surfaceDestroyed(SurfaceHolder holder) {
                     //处理MediaPlayer的生命周期
                     Log.i(TAG, "SurfaceView is Destroyed!");
-                    if (mMediaPlayer.isPlaying()){
-                        mMediaPlayer.stop();
+                    if (mMediaPlayer.isPlaying()) {
+                        mMediaPlayer.pause();
                     }
                 }
             });

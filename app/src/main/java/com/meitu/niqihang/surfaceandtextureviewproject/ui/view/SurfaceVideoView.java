@@ -5,13 +5,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 /**
+ * 控制MediaPlayer的类
+ *
  * @author nqh 2018/10/10.
  */
-public class SurfaceVideoView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
+public class SurfaceVideoView implements SurfaceHolder.Callback{
 
-    public SurfaceVideoView(Context context) {
-        super(context);
-    }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
@@ -25,11 +24,6 @@ public class SurfaceVideoView extends SurfaceView implements SurfaceHolder.Callb
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
-    }
-
-    @Override
-    public void run() {
 
     }
 }
