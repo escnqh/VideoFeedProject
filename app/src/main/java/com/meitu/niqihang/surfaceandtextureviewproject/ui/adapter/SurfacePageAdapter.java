@@ -95,8 +95,13 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
                     mMediaPlayer.setDisplay(holder);
                     try {
                         mMediaPlayer.setDataSource(bean.getVideoPath());
-                        mMediaPlayer.prepare();
-                        mMediaPlayer.start();
+                        mMediaPlayer.prepareAsync();
+                        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                mMediaPlayer.start();
+                            }
+                        });
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

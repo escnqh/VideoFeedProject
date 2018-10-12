@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 线上视频地址： https://www.bilibili.com/video/av33556107/
+ * 线上视频地址： http://mvvideo10.meitudata.com/5bbde5f16daa56665.mp4
  * 本地视频地址： /storage/0004-AB81/DCIM/Camera/VID_20181012_102556.mp4
  *
  * @author nqh 2018/10/10.
@@ -28,7 +28,7 @@ public class MainPageModel implements MainPageContract.Model {
         for (int i = 0; i < mVideoCount; i++) {
             VideoBean videoBean = new VideoBean();
             videoBean.setVideoName("video  " + i);
-            videoBean.setVideoPath("/storage/0004-AB81/DCIM/Camera/VID_20181012_102556.mp4");
+            videoBean.setVideoPath("http://mvvideo10.meitudata.com/5bbde5f16daa56665.mp4");
             videoBeans.add(videoBean);
         }
         feedInfoBean.setVideoFeed(videoBeans);
