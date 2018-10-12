@@ -3,6 +3,7 @@ package com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.meitu.niqihang.surfaceandtextureviewproject.R;
@@ -26,12 +28,14 @@ import java.util.List;
  *
  * @author nqh 2018/10/10.
  */
-public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.MainpageViewholder> {
+public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.MainPageViewHolder> {
     private static final String TAG = "SurfacePageAdapter";
     private Context mContext;
     private List<VideoBean> mDatas;
     private MediaPlayer mMediaPlayer;
     private int currentPosition = -1;
+    private int mDuration;
+    private Handler mHandler = new Handler();
 
     public SurfacePageAdapter(Context context, List<VideoBean> datas) {
         this.mContext = context;
@@ -41,6 +45,7 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mMediaPlayer.stop();
+                mHandler.removeCallbacksAndMessages(null);
             }
         });
     }
@@ -53,26 +58,36 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
             mMediaPlayer.stop();
             mMediaPlayer.release();
             mMediaPlayer = null;
+            mHandler.removeCallbacksAndMessages(null);
         }
     }
 
     @NonNull
     @Override
-    public MainpageViewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MainPageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.view_surface, viewGroup, false);
-        return new MainpageViewholder(itemView);
+        MainPageViewHolder mainPageViewHolder = null;
+        try {
+            mainPageViewHolder = new MainPageViewHolder(itemView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mainPageViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MainpageViewholder mainpageViewholder, int position) {
+    public void onBindViewHolder(@NonNull final MainPageViewHolder mainPageViewHolder, int position) {
         final VideoBean bean = mDatas.get(position);
         //显示播放视频名称
-        mainpageViewholder.mTitleTv.setText(bean.getVideoName());
+        mainPageViewHolder.mTitleTv.setText(bean.getVideoName());
         //
         Drawable bitmap = mContext.getResources().getDrawable(R.drawable.icon_play);
-        mainpageViewholder.mThumbIv.setImageDrawable(bitmap);
-        mainpageViewholder.mThumbIv.setTag(position);
-        mainpageViewholder.mThumbIv.setOnClickListener(new View.OnClickListener() {
+        //
+
+        mainPageViewHolder.mSeekBar.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
+        mainPageViewHolder.mThumbIv.setImageDrawable(bitmap);
+        mainPageViewHolder.mThumbIv.setTag(position);
+        mainPageViewHolder.mThumbIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Integer pos = (Integer) v.getTag();
@@ -83,10 +98,11 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
         if (currentPosition == position) {
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.stop();
+                mHandler.removeCallbacksAndMessages(null);
             }
-            mainpageViewholder.mSurfaceView.setVisibility(View.VISIBLE);
-            mainpageViewholder.mThumbIv.setVisibility(View.INVISIBLE);
-            SurfaceHolder surfaceHolder = mainpageViewholder.mSurfaceView.getHolder();
+            mainPageViewHolder.mSurfaceView.setVisibility(View.VISIBLE);
+            mainPageViewHolder.mThumbIv.setVisibility(View.INVISIBLE);
+            SurfaceHolder surfaceHolder = mainPageViewHolder.mSurfaceView.getHolder();
             surfaceHolder.addCallback(new SurfaceHolder.Callback() {
                 @Override
                 public void surfaceCreated(SurfaceHolder holder) {
@@ -95,10 +111,20 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
                     mMediaPlayer.setDisplay(holder);
                     try {
                         mMediaPlayer.setDataSource(bean.getVideoPath());
+                        //异步加载资源
                         mMediaPlayer.prepareAsync();
                         mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                             @Override
                             public void onPrepared(MediaPlayer mp) {
+                                mDuration = mMediaPlayer.getDuration();
+                                mainPageViewHolder.mSeekBar.setMax(mDuration);
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mainPageViewHolder.mSeekBar.setProgress(mMediaPlayer.getCurrentPosition());
+                                        mHandler.postDelayed(this, 1000);
+                                    }
+                                });
                                 mMediaPlayer.start();
                             }
                         });
@@ -118,12 +144,13 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
                     Log.i(TAG, "SurfaceView is Destroyed!");
                     if (mMediaPlayer.isPlaying()) {
                         mMediaPlayer.pause();
+                        mHandler.removeCallbacksAndMessages(null);
                     }
                 }
             });
         } else {
-            mainpageViewholder.mSurfaceView.setVisibility(View.INVISIBLE);
-            mainpageViewholder.mThumbIv.setVisibility(View.VISIBLE);
+            mainPageViewHolder.mSurfaceView.setVisibility(View.INVISIBLE);
+            mainPageViewHolder.mThumbIv.setVisibility(View.VISIBLE);
         }
 
     }
@@ -133,18 +160,38 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
         return mDatas.size();
     }
 
-    class MainpageViewholder extends RecyclerView.ViewHolder {
+    class MainPageViewHolder extends RecyclerView.ViewHolder {
         private SurfaceView mSurfaceView;
+        private SeekBar mSeekBar;
         private ImageView mThumbIv;
         private TextView mTitleTv;
 
 
-        public MainpageViewholder(@NonNull View itemView) {
+        public MainPageViewHolder(@NonNull View itemView) {
             super(itemView);
             mSurfaceView = itemView.findViewById(R.id.surface_view);
             mThumbIv = itemView.findViewById(R.id.item_iv);
             mTitleTv = itemView.findViewById(R.id.item_title);
+            mSeekBar = itemView.findViewById(R.id.sb_video);
         }
     }
 
+    private SeekBar.OnSeekBarChangeListener mOnSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            if (mMediaPlayer != null) {
+                mMediaPlayer.seekTo(seekBar.getProgress());
+            }
+        }
+    };
 }
