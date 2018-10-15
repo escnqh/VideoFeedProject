@@ -64,7 +64,7 @@ public class FirstFragment extends BaseFragment<FirstFragmentContract.View, Firs
     }
 
     private void initView(View view) {
-        mSwipeRefreshLayout = view.findViewById(R.id.layout_swipe_refresh);
+        mSwipeRefreshLayout = view.findViewById(R.id.sr_first);
         mRecyclerView = view.findViewById(R.id.rv_first);
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);

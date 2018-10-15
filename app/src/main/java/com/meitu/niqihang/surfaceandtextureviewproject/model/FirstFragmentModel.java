@@ -24,7 +24,7 @@ public class FirstFragmentModel implements FirstFragmentContract.Model {
         List<VideoBean> videoBeans = new ArrayList<>();
         for (int i = 0; i < mVideoCount; i++) {
             videoBean.setVideoName("下拉刷新的video  " + i);
-            videoBean.setVideoPath("/storage/0004-AB81/DCIM/Camera/VID_20181012_102556.mp4");
+            videoBean.setVideoPath("http://mvvideo10.meitudata.com/5bbde5f16daa56665.mp4");
             videoBeans.add(videoBean);
         }
         mFeedInfoBean.setVideoFeed(videoBeans);
