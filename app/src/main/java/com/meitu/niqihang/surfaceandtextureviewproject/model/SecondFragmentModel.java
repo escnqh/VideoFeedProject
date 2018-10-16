@@ -4,6 +4,7 @@ import com.meitu.niqihang.surfaceandtextureviewproject.contract.SecondFragmentCo
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.FeedInfoBean;
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.VideoBean;
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.fragment.SecondFragment;
+import com.meitu.niqihang.surfaceandtextureviewproject.utils.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class SecondFragmentModel implements SecondFragmentContract.Model {
     public SecondFragmentModel(SecondFragmentContract.InteractionListener listener) {
         this.mListener = listener;
         mFeedInfoBean = new FeedInfoBean();
-        mFeedInfoBean.setFeedType("TextureView");
+        mFeedInfoBean.setFeedType(Config.TextureViewKey);
         VideoBean videoBean = new VideoBean();
         List<VideoBean> videoBeans = new ArrayList<>();
         for (int i = 0; i < mVideoCount; i++) {

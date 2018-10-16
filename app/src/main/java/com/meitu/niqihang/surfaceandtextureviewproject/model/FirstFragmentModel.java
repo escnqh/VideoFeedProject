@@ -3,6 +3,7 @@ package com.meitu.niqihang.surfaceandtextureviewproject.model;
 import com.meitu.niqihang.surfaceandtextureviewproject.contract.FirstFragmentContract;
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.FeedInfoBean;
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.VideoBean;
+import com.meitu.niqihang.surfaceandtextureviewproject.utils.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class FirstFragmentModel implements FirstFragmentContract.Model {
         this.mListener = listener;
         //todo 加载FeedInfoBean
         mFeedInfoBean = new FeedInfoBean();
-        mFeedInfoBean.setFeedType("SurfaceView");
+        mFeedInfoBean.setFeedType(Config.SurfaceViewKey);
         VideoBean videoBean = new VideoBean();
         List<VideoBean> videoBeans = new ArrayList<>();
         for (int i = 0; i < mVideoCount; i++) {

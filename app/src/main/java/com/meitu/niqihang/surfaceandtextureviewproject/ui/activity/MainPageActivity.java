@@ -13,6 +13,7 @@ import com.meitu.niqihang.surfaceandtextureviewproject.presenter.MainPagePresent
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter.MainPagePagerAdapter;
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.fragment.FirstFragment;
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.fragment.SecondFragment;
+import com.meitu.niqihang.surfaceandtextureviewproject.utils.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,11 +62,12 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
     public void showFeed(List<FeedInfoBean> feedInfoBeanList) {
         for (int i = 0; i < feedInfoBeanList.size(); i++) {
             if (feedInfoBeanList.get(i) != null) {
-                if (feedInfoBeanList.get(i).getFeedType().equals("SurfaceView")) {
+                if (feedInfoBeanList.get(i).getFeedType().equals(Config.SurfaceViewKey)) {
                     mMainPagePagerAdapter.addFragment(FirstFragment.newInstance(feedInfoBeanList.get(i)));
                     mMainPagePagerAdapter.notifyDataSetChanged();
-                } else if (feedInfoBeanList.get(i).getFeedType().equals("TextureView")) {
-                    //todo 添加TextureView的Fragment
+                } else if (feedInfoBeanList.get(i).getFeedType().equals(Config.TextureViewKey)) {
+                    mMainPagePagerAdapter.addFragment(SecondFragment.newInstance(feedInfoBeanList.get(i)));
+                    mMainPagePagerAdapter.notifyDataSetChanged();
                 }
             }
         }

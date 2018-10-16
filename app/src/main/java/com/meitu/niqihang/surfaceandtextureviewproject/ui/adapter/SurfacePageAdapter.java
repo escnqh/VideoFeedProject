@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.meitu.niqihang.surfaceandtextureviewproject.MyApplication;
 import com.meitu.niqihang.surfaceandtextureviewproject.R;
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.VideoBean;
 
@@ -40,7 +41,7 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
     public SurfacePageAdapter(Context context, List<VideoBean> datas) {
         this.mContext = context;
         this.mDatas = datas;
-        this.mMediaPlayer = new MediaPlayer();
+        this.mMediaPlayer = MyApplication.getInstance().getMediaPlayer();
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
