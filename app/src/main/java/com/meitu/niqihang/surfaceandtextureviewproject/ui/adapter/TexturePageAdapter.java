@@ -152,6 +152,7 @@ public class TexturePageAdapter extends RecyclerView.Adapter<TexturePageAdapter.
                 isPlaying = false;
             }
         } else {
+            holder.mTvvVideo.pausePlay();
             holder.mIvCover.setVisibility(View.VISIBLE);
             holder.mTvvVideo.setVisibility(View.INVISIBLE);
             holder.mIvStart.setImageResource(R.drawable.icon_start);

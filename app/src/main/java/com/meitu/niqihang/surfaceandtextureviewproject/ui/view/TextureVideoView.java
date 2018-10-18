@@ -129,7 +129,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
                 e.printStackTrace();
             }
         } else {
-            mMediaPlayer.start();
+            startPlay();
         }
     }
 
