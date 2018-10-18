@@ -24,7 +24,7 @@ public class MainPageModel implements MainPageContract.Model {
         this.mMainPagePresenter = mainPagePresenter;
         mFeedInfoBeanList = new ArrayList<>();
         FeedInfoBean feedInfoBean = new FeedInfoBean();
-        feedInfoBean.setFeedType(Config.SurfaceViewKey);
+        feedInfoBean.setFeedType(Config.SURFACE_VIEW_KEY);
         List<VideoBean> videoBeans = new ArrayList<>();
         for (int i = 0; i < mVideoCount; i++) {
             VideoBean videoBean = new VideoBean();
@@ -35,7 +35,7 @@ public class MainPageModel implements MainPageContract.Model {
         feedInfoBean.setVideoFeed(videoBeans);
         mFeedInfoBeanList.add(feedInfoBean);
         FeedInfoBean feedInfoBean2 = new FeedInfoBean();
-        feedInfoBean2.setFeedType(Config.TextureViewKey);
+        feedInfoBean2.setFeedType(Config.TEXTURE_VIEW_KEY);
         feedInfoBean2.setVideoFeed(videoBeans);
         mFeedInfoBeanList.add(feedInfoBean2);
     }

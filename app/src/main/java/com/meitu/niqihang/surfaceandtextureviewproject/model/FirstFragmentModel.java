@@ -20,7 +20,7 @@ public class FirstFragmentModel implements FirstFragmentContract.Model {
         this.mListener = listener;
         //todo 加载FeedInfoBean
         mFeedInfoBean = new FeedInfoBean();
-        mFeedInfoBean.setFeedType(Config.SurfaceViewKey);
+        mFeedInfoBean.setFeedType(Config.SURFACE_VIEW_KEY);
         VideoBean videoBean = new VideoBean();
         List<VideoBean> videoBeans = new ArrayList<>();
         for (int i = 0; i < mVideoCount; i++) {

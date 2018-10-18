@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,18 +51,32 @@ public class TexturePageAdapter extends RecyclerView.Adapter<TexturePageAdapter.
     @Override
     public void onBindViewHolder(@NonNull final TexturePageViewHolder holder, int i) {
         final VideoBean bean = mDatas.get(i);
-
         holder.mTvTitle.setText(bean.getVideoName());
         holder.mRlControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.mRlControl.setVisibility(View.INVISIBLE);
+                if (holder.mRlControl.getVisibility() != View.INVISIBLE) {
+                    holder.mRlControl.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        holder.mIvCover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.mRlControl.getVisibility() != View.INVISIBLE) {
+                    holder.mRlControl.setVisibility(View.INVISIBLE);
+                }
+                if (holder.mRlControl.getVisibility() != View.VISIBLE) {
+                    holder.mRlControl.setVisibility(View.VISIBLE);
+                }
             }
         });
         holder.mTvvVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.mRlControl.setVisibility(View.VISIBLE);
+                if (holder.mRlControl.getVisibility() != View.VISIBLE) {
+                    holder.mRlControl.setVisibility(View.VISIBLE);
+                }
             }
         });
         holder.mIvStart.setTag(i);
@@ -79,6 +94,7 @@ public class TexturePageAdapter extends RecyclerView.Adapter<TexturePageAdapter.
                 holder.mTvvVideo.setUrl(bean.getVideoPath());
             }
         });
+
         holder.mTvvVideo.setPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -138,6 +154,7 @@ public class TexturePageAdapter extends RecyclerView.Adapter<TexturePageAdapter.
         } else {
             holder.mIvCover.setVisibility(View.VISIBLE);
             holder.mTvvVideo.setVisibility(View.INVISIBLE);
+            holder.mIvStart.setImageResource(R.drawable.icon_start);
         }
     }
 

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 
+import com.meitu.niqihang.surfaceandtextureviewproject.MyApplication;
 import com.meitu.niqihang.surfaceandtextureviewproject.R;
 import com.meitu.niqihang.surfaceandtextureviewproject.base.BaseActivity;
 import com.meitu.niqihang.surfaceandtextureviewproject.contract.MainPageContract;
@@ -38,7 +39,29 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
         mFragmentManager = getSupportFragmentManager();
         mMainPagePagerAdapter = new MainPagePagerAdapter(mFragmentManager, mFragments);
         mViewPager.setAdapter(mMainPagePagerAdapter);
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
         requestFeed();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MyApplication.getInstance().getMediaPlayer().release();
     }
 
     @Override
@@ -62,10 +85,10 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
     public void showFeed(List<FeedInfoBean> feedInfoBeanList) {
         for (int i = 0; i < feedInfoBeanList.size(); i++) {
             if (feedInfoBeanList.get(i) != null) {
-                if (feedInfoBeanList.get(i).getFeedType().equals(Config.SurfaceViewKey)) {
+                if (feedInfoBeanList.get(i).getFeedType().equals(Config.SURFACE_VIEW_KEY)) {
                     mMainPagePagerAdapter.addFragment(FirstFragment.newInstance(feedInfoBeanList.get(i)));
                     mMainPagePagerAdapter.notifyDataSetChanged();
-                } else if (feedInfoBeanList.get(i).getFeedType().equals(Config.TextureViewKey)) {
+                } else if (feedInfoBeanList.get(i).getFeedType().equals(Config.TEXTURE_VIEW_KEY)) {
                     mMainPagePagerAdapter.addFragment(SecondFragment.newInstance(feedInfoBeanList.get(i)));
                     mMainPagePagerAdapter.notifyDataSetChanged();
                 }
