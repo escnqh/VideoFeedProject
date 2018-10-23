@@ -14,7 +14,9 @@ import com.meitu.niqihang.surfaceandtextureviewproject.presenter.MainPagePresent
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter.MainPagePagerAdapter;
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.fragment.FirstFragment;
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.fragment.SecondFragment;
-import com.meitu.niqihang.surfaceandtextureviewproject.utils.Config;
+import com.meitu.niqihang.surfaceandtextureviewproject.utils.Contracts;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,10 +87,10 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
     public void showFeed(List<FeedInfoBean> feedInfoBeanList) {
         for (int i = 0; i < feedInfoBeanList.size(); i++) {
             if (feedInfoBeanList.get(i) != null) {
-                if (feedInfoBeanList.get(i).getFeedType().equals(Config.SURFACE_VIEW_KEY)) {
+                if (feedInfoBeanList.get(i).getFeedType().equals(Contracts.SURFACE_VIEW_KEY)) {
                     mMainPagePagerAdapter.addFragment(FirstFragment.newInstance(feedInfoBeanList.get(i)));
                     mMainPagePagerAdapter.notifyDataSetChanged();
-                } else if (feedInfoBeanList.get(i).getFeedType().equals(Config.TEXTURE_VIEW_KEY)) {
+                } else if (feedInfoBeanList.get(i).getFeedType().equals(Contracts.TEXTURE_VIEW_KEY)) {
                     mMainPagePagerAdapter.addFragment(SecondFragment.newInstance(feedInfoBeanList.get(i)));
                     mMainPagePagerAdapter.notifyDataSetChanged();
                 }

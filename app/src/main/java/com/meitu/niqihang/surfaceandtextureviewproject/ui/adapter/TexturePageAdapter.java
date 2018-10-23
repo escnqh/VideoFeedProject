@@ -145,6 +145,7 @@ public class TexturePageAdapter extends RecyclerView.Adapter<TexturePageAdapter.
                 holder.mTvvVideo.setVisibility(View.VISIBLE);
                 holder.mIvStart.setImageResource(R.drawable.icon_stop);
             } else {
+                holder.mSbProgress.setOnSeekBarChangeListener(null);
                 holder.mTvvVideo.pausePlay();
                 holder.mIvStart.setImageResource(R.drawable.icon_start);
                 holder.mIvCover.setVisibility(View.VISIBLE);
@@ -152,6 +153,7 @@ public class TexturePageAdapter extends RecyclerView.Adapter<TexturePageAdapter.
                 isPlaying = false;
             }
         } else {
+            holder.mSbProgress.setOnSeekBarChangeListener(null);
             holder.mTvvVideo.pausePlay();
             holder.mIvCover.setVisibility(View.VISIBLE);
             holder.mTvvVideo.setVisibility(View.INVISIBLE);

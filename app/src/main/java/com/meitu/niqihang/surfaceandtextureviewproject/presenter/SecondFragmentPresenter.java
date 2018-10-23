@@ -38,4 +38,6 @@ public class SecondFragmentPresenter extends BasePresenter<SecondFragmentContrac
     public void onRequestFailed() {
         //加载失败
     }
+
+
 }

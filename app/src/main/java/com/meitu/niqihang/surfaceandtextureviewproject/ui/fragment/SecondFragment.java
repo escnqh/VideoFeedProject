@@ -17,6 +17,7 @@ import com.meitu.niqihang.surfaceandtextureviewproject.contract.SecondFragmentCo
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.FeedInfoBean;
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.VideoBean;
 import com.meitu.niqihang.surfaceandtextureviewproject.presenter.SecondFragmentPresenter;
+import com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter.NewTexturePageAdapter;
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter.TexturePageAdapter;
 
 import java.util.ArrayList;
