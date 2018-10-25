@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
-import com.meitu.niqihang.surfaceandtextureviewproject.MyApplication;
 import com.meitu.niqihang.surfaceandtextureviewproject.R;
 import com.meitu.niqihang.surfaceandtextureviewproject.base.BaseActivity;
 import com.meitu.niqihang.surfaceandtextureviewproject.contract.MainPageContract;
@@ -15,8 +15,7 @@ import com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter.MainPagePagerA
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.fragment.FirstFragment;
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.fragment.SecondFragment;
 import com.meitu.niqihang.surfaceandtextureviewproject.utils.Contracts;
-
-import org.greenrobot.eventbus.EventBus;
+import com.meitu.niqihang.surfaceandtextureviewproject.utils.MediaPlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +26,7 @@ import java.util.List;
 public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPagePresenter> implements MainPageContract.View, MainPageContract.Presenter {
     private static final String TAG = "MainPageActivity";
     private MainPagePagerAdapter mMainPagePagerAdapter;
-    private FirstFragment mFirstFragment;
     private List<Fragment> mFragments = new ArrayList<>();
-    private SecondFragment mSecondFragment;
     private ViewPager mViewPager;
     private FragmentManager mFragmentManager;
 
@@ -49,7 +46,8 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
 
             @Override
             public void onPageSelected(int i) {
-
+                MediaPlayerManager.getInstance().releaseMediaPlayer();
+                Log.i(TAG,"page scrolled");
             }
 
             @Override
@@ -63,7 +61,7 @@ public class MainPageActivity extends BaseActivity<MainPageContract.View, MainPa
     @Override
     protected void onStop() {
         super.onStop();
-        MyApplication.getInstance().getMediaPlayer().release();
+        MediaPlayerManager.getInstance().releaseMediaPlayer();
     }
 
     @Override

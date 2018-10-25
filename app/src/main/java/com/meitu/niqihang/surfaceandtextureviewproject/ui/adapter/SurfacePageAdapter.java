@@ -16,9 +16,9 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.meitu.niqihang.surfaceandtextureviewproject.MyApplication;
 import com.meitu.niqihang.surfaceandtextureviewproject.R;
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.VideoBean;
+import com.meitu.niqihang.surfaceandtextureviewproject.utils.MediaPlayerManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,10 +38,11 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
     private int mDuration;
     private Handler mHandler = new Handler();
 
+
     public SurfacePageAdapter(Context context, List<VideoBean> datas) {
         this.mContext = context;
         this.mDatas = datas;
-        this.mMediaPlayer = MyApplication.getInstance().getMediaPlayer();
+        this.mMediaPlayer = MediaPlayerManager.getInstance().getMediaPlayer();
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -56,7 +57,7 @@ public class SurfacePageAdapter extends RecyclerView.Adapter<SurfacePageAdapter.
      */
     public void destroyPlayer() {
         if (null != mMediaPlayer) {
-            mMediaPlayer.stop();
+            mMediaPlayer.reset();
             mMediaPlayer.release();
             mMediaPlayer = null;
             mHandler.removeCallbacksAndMessages(null);

@@ -2,7 +2,6 @@ package com.meitu.niqihang.surfaceandtextureviewproject.ui.view;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -10,10 +9,8 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 
-import com.meitu.niqihang.surfaceandtextureviewproject.MyApplication;
+import com.meitu.niqihang.surfaceandtextureviewproject.utils.MediaPlayerManager;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
@@ -34,7 +31,6 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
     private OnMediaInitFinishedListener mMediaInitFinishedListener;
     private Handler mHandler = new Handler();
     private int mProgress;
-    private final WeakReference<MediaPlayer> weakMedia = new WeakReference<>(MyApplication.getInstance().getMediaPlayer());
 
     public TextureVideoView(Context context) {
         super(context);
@@ -88,7 +84,7 @@ public class TextureVideoView extends TextureView implements TextureView.Surface
         }
         try {
             if (mMediaPlayer == null) {
-                mMediaPlayer = weakMedia.get();
+                mMediaPlayer = MediaPlayerManager.getInstance().getMediaPlayer();
             }
             mSurface = new Surface(surfaceTexture);
             mMediaPlayer.setSurface(mSurface);

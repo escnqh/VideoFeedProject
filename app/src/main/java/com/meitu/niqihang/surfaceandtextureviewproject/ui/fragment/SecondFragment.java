@@ -3,7 +3,6 @@ package com.meitu.niqihang.surfaceandtextureviewproject.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.meitu.niqihang.surfaceandtextureviewproject.entity.FeedInfoBean;
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.VideoBean;
 import com.meitu.niqihang.surfaceandtextureviewproject.presenter.SecondFragmentPresenter;
 import com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter.NewTexturePageAdapter;
-import com.meitu.niqihang.surfaceandtextureviewproject.ui.adapter.TexturePageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,7 @@ import java.util.List;
 public class SecondFragment extends BaseFragment<SecondFragmentContract.View, SecondFragmentPresenter> implements SecondFragmentContract.View, SecondFragmentContract.Presenter {
     private FeedInfoBean mFeedInfoBean;
     private RecyclerView mRecyclerView;
-    private TexturePageAdapter mTexturePageAdapter;
+    private NewTexturePageAdapter mTexturePageAdapter;
     private List<VideoBean> mVideoBeans = new ArrayList<>();
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -68,7 +66,8 @@ public class SecondFragment extends BaseFragment<SecondFragmentContract.View, Se
         if (null != mFeedInfoBean) {
             mVideoBeans = mFeedInfoBean.getVideoFeed();
         }
-        mTexturePageAdapter = new TexturePageAdapter(this.getContext(), mVideoBeans);
+        mTexturePageAdapter = new NewTexturePageAdapter(this.getContext(), mVideoBeans, mRecyclerView);
+        mTexturePageAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mTexturePageAdapter);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * @author nqh 2018/10/11.
+ * @deprecated 已经弃用
  */
 public class TexturePageAdapter extends RecyclerView.Adapter<TexturePageAdapter.TexturePageViewHolder> {
     private static final String TAG = "TexturePageAdapter";
@@ -138,26 +139,27 @@ public class TexturePageAdapter extends RecyclerView.Adapter<TexturePageAdapter.
                 isPlaying = false;
             }
         });
-        if (currentPosition == i) {
-            if (!isPlaying) {
-                isPlaying = true;
-                holder.mIvCover.setVisibility(View.INVISIBLE);
-                holder.mTvvVideo.setVisibility(View.VISIBLE);
-                holder.mIvStart.setImageResource(R.drawable.icon_stop);
-            } else {
-                holder.mSbProgress.setOnSeekBarChangeListener(null);
-                holder.mTvvVideo.pausePlay();
-                holder.mIvStart.setImageResource(R.drawable.icon_start);
-                holder.mIvCover.setVisibility(View.VISIBLE);
-                holder.mTvvVideo.setVisibility(View.INVISIBLE);
-                isPlaying = false;
-            }
+        if (currentPosition == i && !isPlaying) {
+//            if (!isPlaying) {
+            isPlaying = true;
+            holder.mIvCover.setVisibility(View.INVISIBLE);
+            holder.mTvvVideo.setVisibility(View.VISIBLE);
+            holder.mIvStart.setImageResource(R.drawable.icon_stop);
+//            } else {
+//                holder.mSbProgress.setOnSeekBarChangeListener(null);
+//                holder.mTvvVideo.pausePlay();
+//                holder.mIvStart.setImageResource(R.drawable.icon_start);
+//                holder.mIvCover.setVisibility(View.VISIBLE);
+//                holder.mTvvVideo.setVisibility(View.INVISIBLE);
+//                isPlaying = false;
+//            }
         } else {
             holder.mSbProgress.setOnSeekBarChangeListener(null);
             holder.mTvvVideo.pausePlay();
             holder.mIvCover.setVisibility(View.VISIBLE);
             holder.mTvvVideo.setVisibility(View.INVISIBLE);
             holder.mIvStart.setImageResource(R.drawable.icon_start);
+            isPlaying = false;
         }
     }
 

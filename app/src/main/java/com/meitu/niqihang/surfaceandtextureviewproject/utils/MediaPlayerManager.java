@@ -3,7 +3,7 @@ package com.meitu.niqihang.surfaceandtextureviewproject.utils;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.os.Looper;
+import android.util.Log;
 import android.view.Surface;
 
 import com.meitu.niqihang.surfaceandtextureviewproject.entity.MediaProgress;
@@ -20,6 +20,7 @@ import java.io.IOException;
  */
 public class MediaPlayerManager {
 
+    private static final String TAG = "MediaPlayerManager";
     private MediaPlayer mMediaPlayer;
     private EventBus mEventBus;
     private final MediaStateEvent MEDIA_PLAYING = new MediaStateEvent(Contracts.MEDIA_PLAYING);
@@ -56,8 +57,9 @@ public class MediaPlayerManager {
     /**
      * 通过Surface初始化MediaPlayer
      */
-    public boolean initMediaPlayer(SurfaceTexture surfaceTexture) {
+    public boolean setSurface(SurfaceTexture surfaceTexture) {
         if (null == surfaceTexture) {
+            Log.i(TAG, "surface is null");
             return false;
         }
         try {
@@ -72,16 +74,31 @@ public class MediaPlayerManager {
         }
     }
 
+    public boolean getPlayingState() {
+        if (mMediaPlayer != null) {
+            return mMediaPlayer.isPlaying();
+        }
+        return false;
+    }
+
     public void setMediaPlayer(MediaPlayer mediaPlayer) {
         if (mMediaPlayer != mediaPlayer) {
             mMediaPlayer = mediaPlayer;
         }
     }
 
+    public MediaPlayer getMediaPlayer() {
+        if (mMediaPlayer == null) {
+            mMediaPlayer = new MediaPlayer();
+        }
+        return mMediaPlayer;
+    }
+
     public void releaseMediaPlayer() {
         if (mMediaPlayer != null) {
             mMediaPlayer.reset();
             mMediaPlayer.release();
+            mEventBus.post(MEDIA_STOP);
             mMediaPlayer = null;
         }
     }
@@ -126,9 +143,7 @@ public class MediaPlayerManager {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
                     mEventBus.post(MEDIA_ERROR);
-                    if (null != mMediaPlayer) {
-                        mMediaPlayer.reset();
-                    }
+                    releaseMediaPlayer();
                     return true;
                 }
             });
@@ -136,7 +151,7 @@ public class MediaPlayerManager {
     }
 
     public void pause() {
-        if (mMediaPlayer != null) {
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
             mMediaPlayer.pause();
             mEventBus.post(MEDIA_PAUSE);
         }
